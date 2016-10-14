@@ -17,3 +17,7 @@ avconv -f alsa -ac 1 -ar 16000 -i hw:1,0 -acodec libmp3lame -f rtp rtp://$listen
 # Launch video stream 
 # Use browser pointed to this IP at 8080 to view video
 mjpg_streamer -i "input_uvc.so -r 768x480 -f 15" -o "output_http.so -w /usr/www" &
+
+# Launch SOCKS Proxy SSH Tunnel
+# To view the cam feed, use the following on your local system: ssh -f -N -q -C -o 'StrictHostKeyChecking no' -o ServerAliveInterval=60 -D 8081 user@IP
+ssh -R 8080:localhost:8080 -f -C -q -N -o 'StrictHostKeyChecking no' -o ServerAliveInterval=60 ${userName//[[:space:]]}@${reverseDest//[[:space:]]}
